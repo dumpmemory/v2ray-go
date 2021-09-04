@@ -21,8 +21,6 @@ on:
 
 jobs:
   test:
-    strategy:
-      fail-fast: false
     runs-on: ubuntu-latest
     container:
       image: archlinux/archlinux:base-devel
@@ -32,6 +30,11 @@ jobs:
           pacman -Syu --needed --noconfirm go protobuf git
 
       - uses: actions/checkout@v2
+
+      - name: Run go generate
+        run: |
+          go generate proto.go
+          go generate
 
       - name: Check Go modules
         run: |
